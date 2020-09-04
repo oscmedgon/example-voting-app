@@ -7,31 +7,30 @@ pipeline {
         stage('Build') {
             steps {
                 dir('worker') {
+                    echo 'Compiling worker app'
                     sh('mvn compile')
                 }
-                echo 'Phase 1'
             }
         }
         stage('Test') {
             steps {
                 dir('worker') {
-                    sh('mvn compile')
+                    sh('mvn clean test')
                 }
-                echo 'Phase 2'
             }
         }
         stage('Package') {
             steps {
                 dir('worker') {
-                    sh('mvn compile')
+                    echo 'Packaging worker app'
+                    sh('mvn package')
                 }
-                echo 'Phase 3'
             }
         }
     }
     post {
         always {
-            echo 'Runn completed'
+            echo 'Job ${JOB_NAME}:${BUILD_ID} completed.'
         }
     }
 }
