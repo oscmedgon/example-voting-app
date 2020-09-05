@@ -11,8 +11,10 @@ pipeline {
             steps {
                 dir('result') {
                     echo 'Installing dependencies'
+                    slackSend "Install step started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                     sh('npm install')
                     stash name: "node_modules", includes: "**/node_modules/**"
+                    slackSend "Install step completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
         }
@@ -23,16 +25,21 @@ pipeline {
 
             steps {
                 dir('result') {
+                    slackSend "Test step started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                     unstash "node_modules"
                     sh('ls -la')
                     sh('npm run test')
+                    slackSend "Test step Completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
                 }
             }
         }
     }
     post {
-        always {
-            echo "Job ${JOB_NAME}:${BUILD_ID} completed."
+        success {
+            slackSend "Pipelene completed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        }
+        error {
+            slackSend "Test step with errors - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
 }
