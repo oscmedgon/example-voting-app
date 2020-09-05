@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             when {
-                changeset 'worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 dir('worker') {
@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Test') {
             when {
-                changeset 'worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 dir('worker') {
@@ -28,7 +28,7 @@ pipeline {
         stage('Package') {
             when {
                 branch 'master'
-                changeset 'worker/**'
+                changeset '**/worker/**'
             }
             steps {
                 dir('worker') {
