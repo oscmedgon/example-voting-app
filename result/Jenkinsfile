@@ -12,7 +12,7 @@ pipeline {
                 dir('result') {
                     echo 'Installing dependencies'
                     sh('npm install')
-                    stash name: "node_modules", includes: "**/result/node_modules"
+                    stash name: "node_modules", includes: "**/node_modules/**"
                 }
             }
         }
