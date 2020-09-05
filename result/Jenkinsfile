@@ -26,6 +26,7 @@ pipeline {
                     unstash "node_modules"
                     sh('ls -la')
                     sh('npm run test')
+                    sh('exit 1')
                 }
             }
         }
