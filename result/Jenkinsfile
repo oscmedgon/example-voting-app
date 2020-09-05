@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    tools {
+        maven 'NodeJS 8.17.0'
+    }
+    stages {
+        stage('Build') {
+            when {
+                changeset '**/result/**'
+            }
+            steps {
+                dir('result') {
+                    echo 'Installing dependencies'
+                    sh('npm install')
+                    stash name: "node_modules", includes: "**/result/node_modules"
+                }
+            }
+        }
+        stage('Test') {
+            when {
+                changeset '**/result/**'
+            }
+
+            steps {
+                dir('result') {
+                    unstash "node_modules"
+                    sh('ls -la')
+                    sh('npm run test')
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo "Job ${JOB_NAME}:${BUILD_ID} completed."
+        }
+    }
+}
+
