@@ -38,7 +38,7 @@ pipeline {
         success {
             slackSend "Pipelene completed successfully - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
-        error {
+        failure {
             slackSend "Test step with errors - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
     }
