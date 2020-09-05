@@ -34,11 +34,13 @@ pipeline {
         success {
             slackSend (
                 message: "Pipeline succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
+                color: "green"
             )
         }
         failure {
             slackSend(
-                message: "Pipeline failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+                message: "Pipeline failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
+                color: "red"
             )
         }
     }
