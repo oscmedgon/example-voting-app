@@ -14,6 +14,7 @@ pipeline {
                 dir('vote') {
                     echo 'Installing dependencies'
                     sh('pip install -r requirements.txt')
+                    sh('ls -la ~/.cache/pip')
 //                     stash name: "node_modules", includes: "**/node_modules/**"
                 }
             }
@@ -26,6 +27,7 @@ pipeline {
             steps {
                 dir('vote') {
 //                     unstash "node_modules"
+                    sh('ls -la ~/.cache/pip')
                     sh('nosetest -v')
                 }
             }
