@@ -5,6 +5,9 @@ pipeline {
     }
     stages {
         stage('Build') {
+            when {
+                changeset 'worker/**'
+            }
             steps {
                 dir('worker') {
                     echo 'Compiling worker app'
@@ -13,6 +16,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                changeset 'worker/**'
+            }
             steps {
                 dir('worker') {
                     sh('mvn clean test')
@@ -20,17 +26,21 @@ pipeline {
             }
         }
         stage('Package') {
+            when {
+                branch 'master'
+                changeset 'worker/**'
+            }
             steps {
                 dir('worker') {
                     echo 'Packaging worker app'
                     sh('mvn package -DskipTest')
+                    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             echo "Job ${JOB_NAME}:${BUILD_ID} completed."
         }
     }
