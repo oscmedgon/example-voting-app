@@ -14,7 +14,7 @@ pipeline {
                 dir('vote') {
                     echo 'Installing dependencies'
                     sh('pip install -r requirements.txt')
-//                     stash name: "node_modules", includes: "**/node_modules/**" another dummy change
+//                     stash name: "node_modules", includes: "**/node_modules/**"
                 }
             }
         }
