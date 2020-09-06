@@ -38,9 +38,8 @@ pipeline {
             steps {
                 dir('result') {
                     unstash "node_modules"
-                    script {
-                        docker build -t my-image:latest
-                    }
+                    def customImage = docker.build("my-image:${env.BUILD_ID}")
+                    customImage.tag("my-image:latest")
                 }
             }
         }
