@@ -6,7 +6,7 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('install') {
             when {
                 changeset '**/result/**'
             }
@@ -28,6 +28,17 @@ pipeline {
                     unstash "node_modules"
                     sh('ls -la')
                     sh('npm run test')
+                }
+            }
+        }
+        stage('Build image') {
+            when {
+                changeset '**/result/**'
+            }
+            steps {
+                dir('result') {
+                    unstash "node_modules"
+                    docker build -t my-image:latest
                 }
             }
         }
