@@ -38,7 +38,9 @@ pipeline {
             steps {
                 dir('result') {
                     unstash "node_modules"
-                    docker build -t my-image:latest
+                    script {
+                        docker build -t my-image:latest
+                    }
                 }
             }
         }
